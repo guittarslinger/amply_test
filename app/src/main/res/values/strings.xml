@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">amply_test</string>
+    <string name="just_another_yes_another_weather_app">Just another, yes another, weather app</string>
+    <string name="and_there_was_much_rejoicing_yay">(and there was much rejoicing, yay)</string>
+    <string name="current_weather_conditions_icon">Current Weather Conditions Icon</string>
+    <string name="your_location">Your Location:</string>
+    <string name="city_state">City, State</string>
+    <string name="current_temperature">Current Temperature:</string>
+    <string name="current_temp_goes_here">Current Temp Goes Here</string>
+    <string name="today_s_high">High Temp:</string>
+    <string name="high_temp_goes_here">High Temp Goes Here</string>
+    <string name="low_temp">Low Temp:</string>
+    <string name="low_temp_goes_here">Low Temp Goes Here</string>
+    <string name="weather_conditions">Weather Conditions:</string>
+    <string name="current_weather_conditions_go_here">Current weather conditions go here.</string>
+    <string name="divider_line">Divider Line</string>
+    <string name="search_for_weather_by_zip">Search for Weather by Zip</string>
 </resources>
