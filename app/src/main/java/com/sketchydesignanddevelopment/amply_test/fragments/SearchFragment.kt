@@ -1,5 +1,6 @@
 package com.sketchydesignanddevelopment.amply_test.fragments
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
-import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.firebase.firestore.FirebaseFirestore
 import com.sketchydesignanddevelopment.amply_test.R
 import com.squareup.picasso.Picasso
 import okhttp3.*
@@ -35,6 +36,8 @@ class SearchFragment: Fragment() {
     private lateinit var lowTempString: String
     private lateinit var conditionsString: String
 
+    private lateinit var db: FirebaseFirestore
+
     //new instance
     companion object {
         fun newInstance():SearchFragment {
@@ -59,6 +62,8 @@ class SearchFragment: Fragment() {
         lowTempView = activity!!.findViewById(R.id.searchLowTempDetail)
         conditionsView = activity!!.findViewById(R.id.searchConditionsDetail)
         searchButton = activity!!.findViewById(R.id.searchButton)
+
+        db = FirebaseFirestore.getInstance()
 
         searchButton.setOnClickListener {
 
@@ -91,24 +96,45 @@ class SearchFragment: Fragment() {
             client.newCall(request).enqueue(object : Callback {
                 override fun onResponse(call: Call, response: Response) {
                     val weatherData = response.body()?.string()
-                    val jsonObject = JSONObject(weatherData)
-                    val jsonDetail: JSONObject = jsonObject.get("today") as JSONObject
-                    iconString = jsonDetail.get("iconLink") as String
-                    locationString = jsonDetail.get("city") as String + ", " + jsonDetail.get("state") as String
-                    currentTempString = jsonDetail.get("temperature") as String
-                    highTempString = jsonDetail.get("highTemperature") as String
-                    lowTempString = jsonDetail.get("lowTemperature") as String
-                    conditionsString = jsonDetail.get("description") as String
 
-                    //updating UI
-                    requireActivity().runOnUiThread {
-                        Picasso.get().load(iconString).into(iconView)
-                        locationView.text = locationString
-                        currentTempView.text = currentTempString
-                        highTempView.text = highTempString
-                        lowTempView.text = lowTempString
-                        conditionsView.text = conditionsString
-                        progressBar.visibility = View.GONE
+                    if(!weatherData.equals("{\"message\": \"Internal server error\"}")){
+                        val jsonObject = JSONObject(weatherData)
+                        val jsonDetail: JSONObject = jsonObject.get("today") as JSONObject
+                        iconString = jsonDetail.get("iconLink") as String
+                        locationString = jsonDetail.get("city") as String + ", " + jsonDetail.get("state") as String
+                        currentTempString = jsonDetail.get("temperature") as String
+                        highTempString = jsonDetail.get("highTemperature") as String
+                        lowTempString = jsonDetail.get("lowTemperature") as String
+                        conditionsString = jsonDetail.get("description") as String
+
+                        val searched = hashMapOf(
+                            "zip" to zip
+                        )
+                        db.collection("searched")
+                            .add(searched)
+                            .addOnSuccessListener { documentReference ->
+                                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w(TAG, "Error adding document", e)
+                            }
+
+                        //updating UI
+                        requireActivity().runOnUiThread {
+                            Picasso.get().load(iconString).into(iconView)
+                            locationView.text = locationString
+                            currentTempView.text = currentTempString
+                            highTempView.text = highTempString
+                            lowTempView.text = lowTempString
+                            conditionsView.text = conditionsString
+                            progressBar.visibility = View.GONE
+                        }
+                    } else {
+                        //updating UI
+                        requireActivity().runOnUiThread {
+                            progressBar.visibility = View.GONE
+                            Toast.makeText(context, "There is no data for that zip code", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
 
@@ -120,3 +146,7 @@ class SearchFragment: Fragment() {
         }
     }
 }
+
+
+
+

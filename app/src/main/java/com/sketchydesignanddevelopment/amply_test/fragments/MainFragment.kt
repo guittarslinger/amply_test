@@ -30,8 +30,6 @@ import org.json.JSONObject
 import java.io.*
 import java.util.*
 import java.util.concurrent.Executors
-import kotlin.system.exitProcess
-
 
 class MainFragment: Fragment() {
 
@@ -134,9 +132,6 @@ class MainFragment: Fragment() {
         if (ActivityCompat.checkSelfPermission(context!!, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
                 context!!,
                 Manifest.permission.ACCESS_COARSE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                context!!,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED){
             getWeatherDetails()
         }else{
@@ -157,7 +152,6 @@ class MainFragment: Fragment() {
                     }
                 }
             }
-
             thread.start()
         }
     }

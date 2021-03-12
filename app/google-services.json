@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "418324767594",
+    "project_id": "weatherapptest-dd547",
+    "storage_bucket": "weatherapptest-dd547.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:418324767594:android:07afb51ea1966a9542fb13",
+        "android_client_info": {
+          "package_name": "com.sketchydesignanddevelopment.amply_test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "418324767594-a5l6v8rg3mjq86qoackj5imvcraf7imj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7efWpPjX3dIKRwSd2NqDZ47PThIFsLXM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "418324767594-a5l6v8rg3mjq86qoackj5imvcraf7imj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
